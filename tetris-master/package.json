@@ -4,8 +4,8 @@
   "description": "The original TETRIS game simulation.",
   "private": true,
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ytiurin/tetris.git"
+    "type": "git",
+    "url": "https://github.com/ytiurin/tetris.git"
   },
   "scripts": {
     "start": "http-server ./ -c-1",
@@ -15,14 +15,21 @@
   "license": "MIT",
   "devDependencies": {
     "gulp": "latest",
-    "gulp-concat": "latest",
-    "gulp-uglify": "latest",
     "gulp-clean-css": "latest",
-    "gulp-html-minifier": "latest",
-    "gulp-replace": "latest",
-    "gulp-rename": "latest",
+    "gulp-concat": "latest",
     "gulp-jsonminify": "latest",
+    "gulp-rename": "latest",
+    "gulp-replace": "latest",
+    "gulp-uglify": "latest",
+    "html-minifier-terser": "^7.2.0",
     "http-server": "latest",
-    "merge-stream": "latest"
+    "merge-stream": "latest",
+    "through2": "^4.0.2"
+  },
+  "overrides": {
+    "clean-css": "^4.1.11",
+    "lodash": "^4.17.21",
+    "minimatch": "^5.0.0",
+    "trim-newlines": "^3.0.1"
   }
 }
