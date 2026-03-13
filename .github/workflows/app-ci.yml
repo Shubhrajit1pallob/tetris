@@ -28,12 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Image
-        run: docker build -t my-aks-app:${{ github.sha }} ./tetris-master
+        run: docker build -t tetris-app:${{ github.sha }} ./tetris-master
       
       - name: Scan Image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'my-aks-app:${{ github.sha }}'
+          image-ref: 'tetris-app:${{ github.sha }}'
           format: 'table'
           exit-code: '1' # Fail the build if vulnerabilities found
           severity: 'CRITICAL,HIGH'
@@ -49,7 +49,7 @@ jobs:
         run: az acr login --name ${{ secrets.ACR_NAME }}
 
       - name: Tag image for ACR
-        run: docker tag my-aks-app:${{ github.sha }} ${{ secrets.ACR_NAME }}.azurecr.io/my-aks-app:${{ github.sha }}
+        run: docker tag tetris-app:${{ github.sha }} ${{ secrets.ACR_NAME }}.azurecr.io/tetris-app:${{ github.sha }}
 
       - name: Push image to ACR
-        run: docker push ${{ secrets.ACR_NAME }}.azurecr.io/my-aks-app:${{ github.sha }}
+        run: docker push ${{ secrets.ACR_NAME }}.azurecr.io/tetris-app:${{ github.sha }}
