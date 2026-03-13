@@ -1,0 +1,94 @@
+name: Infrastructure CI & Security Scan
+
+on:
+    push:
+        branches:
+            - infra
+        paths:
+            - 'Terraform/**'
+            - '.github/**'
+
+permissions:
+    id-token: write
+    contents: read
+
+jobs:
+    code-security-scan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            
+            - name: Set Up SAST for code scanning
+              uses: aquasecurity/trivy-action@master
+              with:
+                scan-type: 'fs'
+                scan-ref: './Terraform'
+                format: 'sarif'
+                output: 'terraform-trivy-results.sarif'
+            
+            - name: Upload Trivy SARIF Results
+              uses: actions/upload-artifact@v3
+              with:
+                name: terraform-trivy-results
+                path: terraform-trivy-results.sarif
+
+            - name: Set Up Python for Checkov scan
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.9'
+
+
+            - name: Install Checkov
+              run: pip install checkov
+
+            - name: Run Checkov scan
+              id: checkov-scan
+              uses: bridgecrewio/checkov-action@master
+              with:
+                directory: './Terraform'
+                framework: 'terraform'
+                output_format: 'sarif'
+                output_file_path: 'checkov-results.sarif'
+
+            - name: Upload Checkov SARIF Results
+              uses: actions/upload-artifact@v3
+              with:
+                name: checkov-results
+                path: checkov-results.sarif
+        
+    validate-terraform-code:
+        needs: code-security-scan
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Set up Terraform
+              uses: hashicorp/setup-terraform@v2
+              with:
+                terraform_version: 1.5.0
+
+            - name: Initialize Terraform
+              run: terraform -chdir=Terraform init
+
+            - name: Validate Terraform
+              run: terraform -chdir=Terraform validate
+
+    infra-deploy:
+        needs: validate-terraform-code
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Set up Terraform
+              uses: hashicorp/setup-terraform@v2
+              with:
+                terraform_version: 1.5.0
+
+            - name: Initialize Terraform
+              run: terraform -chdir=Terraform init
+
+            - name: Apply Terraform
+              run: terraform -chdir=Terraform apply -auto-approve
