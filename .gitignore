@@ -38,3 +38,10 @@ jspm_packages
 
 # Others
 .DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+backend.conf

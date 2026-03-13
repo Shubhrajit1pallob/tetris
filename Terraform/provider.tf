@@ -12,10 +12,6 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = var.backend-rg
-    storage_account_name = var.backend-storage-account
-    container_name       = var.backend-container
-    key                  = var.backend-key
     use_azuread_auth     = true
   }
 }

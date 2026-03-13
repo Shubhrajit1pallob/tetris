@@ -45,6 +45,23 @@ create_resources() {
     #   --account-name "$STORAGE_ACCOUNT_NAME" \
     #   --query "[0].value" -o tsv)
     # echo "ARM_ACCESS_KEY=$access_key" >> .env
+<<<<<<< HEAD
+=======
+
+    echo -e "${BLUE}Assigning Storage Blob Data Contributor role...${NC}"
+
+    USER_ID=$(az ad signed-in-user show --query id -o tsv)
+
+    STORAGE_ACCOUNT_ID=$(az storage account show \
+    --name "$STORAGE_ACCOUNT_NAME" \
+    --resource-group "$RESOURCE_GROUP_NAME" \
+    --query id -o tsv)
+
+    az role assignment create \
+    --role "Storage Blob Data Contributor" \
+    --assignee "$USER_ID" \
+    --scope "$STORAGE_ACCOUNT_ID"
+>>>>>>> d72a5be (Added new files)
 }
 
 destroy_resources() {
