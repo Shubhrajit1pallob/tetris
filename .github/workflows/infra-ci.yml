@@ -12,15 +12,18 @@ permissions:
     id-token: write
     contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
     code-security-scan:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             
             - name: Set Up SAST for code scanning
-              uses: aquasecurity/trivy-action@master
+              uses: aquasecurity/trivy-action@0.28.0
               with:
                 scan-type: 'fs'
                 scan-ref: './Terraform'
@@ -34,17 +37,14 @@ jobs:
                 path: terraform-trivy-results.sarif
 
             - name: Set Up Python for Checkov scan
-              uses: actions/setup-python@v4
+              uses: actions/setup-python@v5
               with:
                 python-version: '3.9'
 
 
-            - name: Install Checkov
-              run: pip install checkov
-
             - name: Run Checkov scan
               id: checkov-scan
-              uses: bridgecrewio/checkov-action@master
+              uses: bridgecrewio/checkov-action@v12
               with:
                 directory: './Terraform'
                 framework: 'terraform'
@@ -62,7 +62,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Set up Terraform
               uses: hashicorp/setup-terraform@v2
@@ -105,7 +105,7 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Azure login
               uses: azure/login@v2
