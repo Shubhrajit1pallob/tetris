@@ -70,10 +70,28 @@ jobs:
                 terraform_version: 1.5.0
 
             - name: Initialize Terraform
-              run: terraform -chdir=Terraform init
+              run: terraform init -backend=false
+              working-directory: ./Terraform
 
             - name: Validate Terraform
               run: terraform -chdir=Terraform validate
+
+            - name: Terraform Format Check
+              run: terraform fmt -check -diff
+              working-directory: ./Terraform
+
+            - name: Setup TFLint
+              uses: terraform-linters/setup-tflint@v2
+              with:
+                tflint_version: latest
+
+            - name: Initialize TFLint plugins
+              run: tflint --init
+              working-directory: ./Terraform
+
+            - name: Run TFLint
+              run: tflint -f compact
+              working-directory: ./Terraform
 
     infra-deploy:
         needs: validate-terraform-code
@@ -112,7 +130,8 @@ jobs:
 
             - name: Terraform Plan
               run: |-
-                terraform plan \
+                set +e
+                terraform plan -detailed-exitcode \
                   -var="ssh_public_key=${{ secrets.AZURE_VM_KEY_PUB }}" \
                   -var="project_name=tetris" \
                   -var='aks_cluster_name=tetris-aks' \
@@ -123,9 +142,18 @@ jobs:
                   -var='cosmos_database_name=tetrisdb' \
                   -var='cosmos_container_name=scores' \
                   -out=tfplan
+                code=$?
+                set -e
+                if [ "$code" -eq 1 ]; then
+                  echo "Terraform plan failed"
+                  exit 1
+                fi
+                echo "plan_exit_code=$code" >> $GITHUB_OUTPUT
+              id: terraform-plan
               working-directory: ./Terraform
 
             - name: Apply Terraform
+              if: steps.terraform-plan.outputs.plan_exit_code == '2'
               run: |
                 terraform apply -auto-approve tfplan
               working-directory: ./Terraform
