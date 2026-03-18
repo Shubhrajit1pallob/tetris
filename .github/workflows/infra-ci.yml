@@ -88,7 +88,29 @@ jobs:
                 terraform_version: 1.5.0
 
             - name: Initialize Terraform
-              run: terraform -chdir=Terraform init
+              run: terraform init
+              working-directory: ./Terraform
+
+            - name: Terraform Plan
+              run: |-
+                terraform plan \
+                  -var="ssh_public_key=${{ secrets.AZURE_VM_KEY_PUB }}" \
+                  -var="project_name=tetris" \
+                  -var='aks_cluster_name=tetris-aks' \
+                  -var='aks_dns_prefix=tetrisaks' \
+                  -var='aks_node_count=3' \
+                  -var='aks_node_vm_size=Standard_D4s_v5' \
+                  -var='cosmos_account_name=tetriscosmosdbacct01' \
+                  -var='cosmos_database_name=tetrisdb' \
+                  -var='cosmos_container_name=scores' \
+                  -out=tfplan
+              working-directory: ./Terraform
 
             - name: Apply Terraform
-              run: terraform -chdir=Terraform apply -auto-approve
+              run: |
+                terraform apply -auto-approve tfplan
+              working-directory: ./Terraform
+
+            - name: Terraform Output
+              run: terraform output
+              working-directory: ./Terraform
