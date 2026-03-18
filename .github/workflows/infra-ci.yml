@@ -28,7 +28,7 @@ jobs:
                 output: 'terraform-trivy-results.sarif'
             
             - name: Upload Trivy SARIF Results
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: terraform-trivy-results
                 path: terraform-trivy-results.sarif
@@ -52,7 +52,7 @@ jobs:
                 output_file_path: 'checkov-results.sarif'
 
             - name: Upload Checkov SARIF Results
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: checkov-results
                 path: checkov-results.sarif
