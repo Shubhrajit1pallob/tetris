@@ -4,6 +4,16 @@
 
   publPath = "./public/"
 
+  function scoreApiUrl( path )
+  {
+    var configBase = ( window.TETRIS_API_BASE_URL || "" ).replace( /\/+$/, "" )
+
+    if ( configBase )
+      return configBase + path
+
+    return "https://tetris-tiurin.rhcloud.com" + path
+  }
+
   function scorize( score )
   {
     return score.toString().split("").reverse().join("").match(/.{1,3}/g)
@@ -99,7 +109,7 @@
       userData.name = name
 
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://tetris-tiurin.rhcloud.com/api/scores", true);
+      xhr.open("POST", scoreApiUrl( "/api/scores" ), true);
       //Send the proper header information along with the request
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       //Call a function when the state changes.
@@ -175,7 +185,7 @@
     var unsubEsc = onEsc( document, hide )
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', "https://tetris-tiurin.rhcloud.com/api/scores", true);
+    xhr.open('GET', scoreApiUrl( "/api/scores" ), true);
 
     xhr.onload = function (e) {
       var resp = JSON.parse(e.target.response)

@@ -34,3 +34,28 @@ output "subscription-id" {
 output "service_principal_id" {
   value = azuread_service_principal.tetris.object_id
 }
+
+output "aks_cluster_name" {
+  description = "AKS cluster name"
+  value       = azurerm_kubernetes_cluster.tetris.name
+}
+
+output "aks_resource_group" {
+  description = "Resource group hosting AKS"
+  value       = azurerm_resource_group.tetris-project.name
+}
+
+output "cosmos_endpoint" {
+  description = "Cosmos DB endpoint for score API"
+  value       = azurerm_cosmosdb_account.tetris.endpoint
+}
+
+output "cosmos_database_name" {
+  description = "Cosmos SQL database name"
+  value       = azurerm_cosmosdb_sql_database.tetris.name
+}
+
+output "cosmos_container_name" {
+  description = "Cosmos SQL container name"
+  value       = azurerm_cosmosdb_sql_container.scores.name
+}

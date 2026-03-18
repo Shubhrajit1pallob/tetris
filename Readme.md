@@ -76,3 +76,24 @@ The following work is added by me in this repository as part of the DevOps journ
 ## What Comes Next
 
 Future DevOps stages will be added to this README only after they are implemented, so the document always reflects completed work.
+
+## Score API Endpoint Configuration
+
+The game now supports configuring the score backend endpoint at runtime.
+
+- Default behavior keeps using the legacy score API URL.
+- To point the game to the new backend, define `window.TETRIS_API_BASE_URL` before loading `all.js`.
+
+Example:
+
+```html
+<script>
+  window.TETRIS_API_BASE_URL = "https://<your-api-host>";
+</script>
+<script async defer src="./public/all.js"></script>
+```
+
+The game will call:
+
+- `POST /api/scores`
+- `GET /api/scores`

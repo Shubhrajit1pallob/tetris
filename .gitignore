@@ -45,3 +45,12 @@ jspm_packages
 *.tfstate.*
 .terraform.lock.hcl
 backend.conf
+
+# Python backend
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+score-api/.env
