@@ -19,25 +19,25 @@
 
 variable "region" {
   description = "The region that is common for all resources"
-  type = string
+  type        = string
   default     = "westcentralus"
 }
 
 variable "project_name" {
   description = "Project slug used for naming resources"
-  type = string
+  type        = string
   default     = "tetris"
 }
 
 variable "aks_cluster_name" {
   description = "Name of the AKS cluster"
-  type = string
+  type        = string
   default     = "tetris-aks"
 }
 
 variable "aks_dns_prefix" {
   description = "DNS prefix for AKS API endpoint"
-  type = string
+  type        = string
   default     = "tetris-aks"
 }
 
@@ -49,29 +49,29 @@ variable "aks_node_count" {
 
 variable "aks_node_vm_size" {
   description = "VM size for the AKS default node pool"
-  type = string
+  type        = string
   default     = "Standard_B2s"
 }
 
 variable "cosmos_account_name" {
   description = "Globally unique Azure Cosmos DB account name"
-  type = string
+  type        = string
   default     = "tetriscosmosdbacct01"
 }
 
 variable "cosmos_database_name" {
   description = "Cosmos SQL database name for score data"
-  type = string
+  type        = string
   default     = "tetris"
 }
 
 variable "cosmos_container_name" {
   description = "Cosmos SQL container name for score data"
-  type = string
+  type        = string
   default     = "scores"
 }
 
 variable "ssh_public_key" {
   description = "The SSH key for sshing into the instance."
-  type = string
+  type        = string
 }
