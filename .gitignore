@@ -38,6 +38,7 @@ jspm_packages
 
 # Others
 .DS_Store
+auth
 
 # Terraform
 .terraform/
