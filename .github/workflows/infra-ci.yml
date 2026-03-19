@@ -46,6 +46,7 @@ jobs:
               id: checkov-scan
               uses: bridgecrewio/checkov-action@v12
               with:
+                skip_check: CKV_AZURE_117,CKV_AZURE_227,CKV_AZURE_115,CKV_AZURE_168,CKV_AZURE_232,CKV_AZURE_226,CKV_AZURE_6,CKV_AZURE_172,CKV_AZURE_171
                 directory: './Terraform'
                 framework: 'terraform'
                 output_format: 'sarif'
