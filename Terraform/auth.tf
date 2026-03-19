@@ -3,13 +3,13 @@ data "azurerm_client_config" "current" {
 
 }
 
-resource "azuread_application_federated_identity_credential" "github_app_branch" {
+resource "azuread_application_federated_identity_credential" "github_infra_branch" {
   application_id = azuread_application.tetris_ad.id
-  display_name   = "github-app-branch"
-  description    = "OIDC trust for GitHub Actions app branch"
+  display_name   = "github-infra-branch"
+  description    = "OIDC trust for GitHub Actions Infra branch"
   audiences      = ["api://AzureADTokenExchange"]
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:Shubhrajit1pallob/tetris:ref:refs/heads/app"
+  subject        = "repo:Shubhrajit1pallob/tetris:ref:refs/heads/infra"
 }
 
 
