@@ -75,3 +75,15 @@ variable "ssh_public_key" {
   description = "The SSH key for sshing into the instance."
   type        = string
 }
+
+variable "tfstate_storage_account_name" {
+  description = "The name of the storage account for tfstate"
+  type        = string
+  default = "tetrisec788fda"
+}
+
+variable "tfstate_resource_group_name" {
+  description = "The name of the resource group for tfstate storage account"
+  type        = string
+  default = "terraform-rg01"
+}
