@@ -71,6 +71,7 @@ jobs:
               uses: hashicorp/setup-terraform@v2
               with:
                 terraform_version: 1.5.0
+                terraform_wrapper: false
 
             - name: Initialize Terraform
               run: terraform init -backend=false
@@ -121,6 +122,7 @@ jobs:
               uses: hashicorp/setup-terraform@v2
               with:
                 terraform_version: 1.5.0
+                terraform_wrapper: false
 
             - name: Initialize Terraform
               run: |-
