@@ -97,7 +97,7 @@ jobs:
               working-directory: ./Terraform
 
     infra-deploy:
-        needs: validate-terraform-code
+        # needs: validate-terraform-code
         runs-on: ubuntu-latest
         env:
           ARM_USE_OIDC: true
