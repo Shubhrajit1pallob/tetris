@@ -64,3 +64,13 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.tetris.kubelet_identity[0].object_id
 }
+
+resource "azurerm_kubernetes_cluster_node_pool" "monitoring" {
+  name                  = "monitoring"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.tetris.id
+  vm_size               = var.aks_node_vm_size
+  node_count            = var.aks_node_count
+  mode                  = "User"
+  os_type               = "Linux"
+  os_disk_size_gb       = 250
+}
