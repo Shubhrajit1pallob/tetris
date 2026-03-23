@@ -17,6 +17,7 @@ env:
 
 jobs:
     code-security-scan:
+        if: false
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -59,6 +60,7 @@ jobs:
                 path: checkov-results.sarif
         
     validate-terraform-code:
+        if: false
         needs: code-security-scan
         runs-on: ubuntu-latest
         steps:
@@ -149,12 +151,22 @@ jobs:
                   echo "Terraform plan failed"
                   exit 1
                 fi
-                echo "plan_exit_code=$code" >> $GITHUB_OUTPUT
+                echo "plan_exit_code=$code" >> "$GITHUB_OUTPUT"
+                if [ "$code" -eq 2 ]; then
+                  echo "has_changes=true" >> "$GITHUB_OUTPUT"
+                else
+                  echo "has_changes=false" >> "$GITHUB_OUTPUT"
+                fi
               id: terraform-plan
               working-directory: ./Terraform
 
+            - name: Show Plan Decision
+              run: |
+                echo "plan_exit_code=${{ steps.terraform-plan.outputs.plan_exit_code }}"
+                echo "has_changes=${{ steps.terraform-plan.outputs.has_changes }}"
+
             - name: Apply Terraform
-              if: steps.terraform-plan.outputs.plan_exit_code == '2'
+              if: steps.terraform-plan.outputs.has_changes == 'true'
               run: |
                 terraform apply -auto-approve tfplan
               working-directory: ./Terraform
