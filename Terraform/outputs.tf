@@ -14,26 +14,10 @@ output "acr_id" {
 }
 
 
-output "app-password" {
-  value     = azuread_application_password.tetris.value
-  sensitive = true
-}
-
-output "client-id" {
-  value = azuread_application.tetris_ad.client_id
-}
-
-output "tenant-id" {
-  value = data.azuread_client_config.current.tenant_id
-}
-
-output "subscription-id" {
-  value = data.azurerm_client_config.current.subscription_id
-}
-
-output "service_principal_id" {
-  value = azuread_service_principal.tetris.object_id
-}
+# Auth outputs removed - managed outside of Terraform stack
+# output "app-password" { ... }
+# output "client-id" { ... }
+# output "service_principal_id" { ... }
 
 output "aks_cluster_name" {
   description = "AKS cluster name"
