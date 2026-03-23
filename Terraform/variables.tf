@@ -76,19 +76,19 @@ variable "ssh_public_key" {
   type        = string
 }
 
-variable "tfstate_storage_account_name" {
-  description = "Storage account name for Terraform backend (bootstrapped separately)"
-  type        = string
-  default     = "tetrisec788fda"
-  # NOTE: This storage account is created outside of main Terraform stack via:
-  #   $ ./scripts/azure_storage_account.sh create
-  # It requires manual RBAC grants to GitHub OIDC principal via:
-  #   $ ./scripts/storage_access.sh
-}
+# variable "tfstate_storage_account_name" {
+#   description = "Storage account name for Terraform backend (bootstrapped separately)"
+#   type        = string
+#   default     = "tetrisec788fda"
+#   # NOTE: This storage account is created outside of main Terraform stack via:
+#   #   $ ./scripts/azure_storage_account.sh create
+#   # It requires manual RBAC grants to GitHub OIDC principal via:
+#   #   $ ./scripts/storage_access.sh
+# }
 
-variable "tfstate_resource_group_name" {
-  description = "Resource group for Terraform backend storage account (bootstrapped separately)"
-  type        = string
-  default     = "terraform-rg01"
-  # NOTE: Created via ./scripts/azure_storage_account.sh create
-}
+# variable "tfstate_resource_group_name" {
+#   description = "Resource group for Terraform backend storage account (bootstrapped separately)"
+#   type        = string
+#   default     = "terraform-rg01"
+#   # NOTE: Created via ./scripts/azure_storage_account.sh create
+# }
