@@ -147,7 +147,7 @@ jobs:
                   -var="project_name=tetris" \
                   -var='aks_cluster_name=tetris-aks' \
                   -var='aks_dns_prefix=tetrisaks' \
-                  -var='aks_node_count=3' \
+                  -var='aks_node_count=1' \
                   -var='aks_node_vm_size=Standard_D4s_v5' \
                   -var='cosmos_account_name=tetriscosmosdbacct01' \
                   -var='cosmos_database_name=tetrisdb' \
