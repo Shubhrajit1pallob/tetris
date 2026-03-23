@@ -22,9 +22,10 @@ resource "azurerm_kubernetes_cluster" "tetris" {
     #checkov:skip=CKV_AZURE_232:Temp exception - dedicated user pool not created yet
     #checkov:skip=CKV_AZURE_168:Temp exception - max_pods tuned lower for dev cost
     #checkov:skip=CKV_AZURE_226:Temp exception - ephemeral disks not supported on selected VM size
-    name       = "system"
-    node_count = var.aks_node_count
-    vm_size    = var.aks_node_vm_size
+    name                        = "system"
+    node_count                  = var.aks_node_count
+    vm_size                     = var.aks_node_vm_size
+    temporary_name_for_rotation = "systemtmp"
   }
 
   identity {
@@ -58,6 +59,7 @@ resource "azurerm_kubernetes_cluster" "tetris" {
 }
 
 resource "azurerm_role_assignment" "aks_acr_pull" {
+  count                = var.enable_aks_acr_pull_role_assignment ? 1 : 0
   scope                = azurerm_container_registry.acr.id
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.tetris.kubelet_identity[0].object_id

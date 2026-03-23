@@ -39,6 +39,8 @@ jspm_packages
 # Others
 .DS_Store
 auth
+plan
+
 
 # Terraform
 .terraform/

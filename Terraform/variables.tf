@@ -38,7 +38,7 @@ variable "aks_cluster_name" {
 variable "aks_dns_prefix" {
   description = "DNS prefix for AKS API endpoint"
   type        = string
-  default     = "tetris-aks"
+  default     = "tetrisaks"
 }
 
 variable "aks_node_count" {
@@ -50,7 +50,13 @@ variable "aks_node_count" {
 variable "aks_node_vm_size" {
   description = "VM size for the AKS default node pool"
   type        = string
-  default     = "Standard_B2s"
+  default     = "Standard_D4s_v5"
+}
+
+variable "enable_aks_acr_pull_role_assignment" {
+  description = "Whether Terraform should create AcrPull role assignment for AKS kubelet identity on ACR"
+  type        = bool
+  default     = false
 }
 
 variable "cosmos_account_name" {
@@ -62,7 +68,7 @@ variable "cosmos_account_name" {
 variable "cosmos_database_name" {
   description = "Cosmos SQL database name for score data"
   type        = string
-  default     = "tetris"
+  default     = "tetrisdb"
 }
 
 variable "cosmos_container_name" {
@@ -74,6 +80,12 @@ variable "cosmos_container_name" {
 variable "ssh_public_key" {
   description = "The SSH key for sshing into the instance."
   type        = string
+}
+
+variable "cosmos_region" {
+  description = "The region for cosmosdb"
+  type        = string
+  default     = "eastus2"
 }
 
 # variable "tfstate_storage_account_name" {

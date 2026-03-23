@@ -1,6 +1,6 @@
 resource "azurerm_cosmosdb_account" "tetris" {
   name                = var.cosmos_account_name
-  location            = azurerm_resource_group.tetris-project.location
+  location            = var.cosmos_region
   resource_group_name = azurerm_resource_group.tetris-project.name
   offer_type          = "Standard"
   kind                = "GlobalDocumentDB"
@@ -14,7 +14,7 @@ resource "azurerm_cosmosdb_account" "tetris" {
   }
 
   geo_location {
-    location          = azurerm_resource_group.tetris-project.location
+    location          = var.cosmos_region
     failover_priority = 0
   }
 
