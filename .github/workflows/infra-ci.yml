@@ -131,6 +131,10 @@ jobs:
                   -backend-config="key=terraform.tfstate"
               working-directory: ./Terraform
 
+            - name: Terraform state list
+              run: terraform state list
+              working-directory: ./Terraform
+
             - name: Terraform Plan
               run: |-
                 set +e
