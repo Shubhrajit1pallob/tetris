@@ -1,0 +1,7 @@
+# Copy this file to terraform.tfvars (or use -var-file directly)
+# cp auth/terraform.tfvars.example auth/terraform.tfvars
+
+application_display_name = "tetris-application"
+github_repository        = "Shubhrajit1pallob/tetris"
+infra_branch             = "infra"
+app_branch               = "app"

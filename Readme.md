@@ -79,7 +79,7 @@ Complete Azure infrastructure defined in Terraform in [Terraform/](Terraform/):
 - **Azure Kubernetes Service (AKS)**: [aks.tf](Terraform/aks.tf) with system node pool, Log Analytics integration, and Azure Policy
 - **Azure Container Registry (ACR)**: [container.tf](Terraform/container.tf)
 - **Cosmos DB**: [cosmos.tf](Terraform/cosmos.tf) serverless account for score persistence
-- **Azure AD Integration**: [auth.tf](Terraform/auth.tf) - service principal and GitHub OIDC federation for secure CI/CD
+- **Azure AD Integration**: [auth/auth.tf](auth/auth.tf) - dedicated auth stack for service principal and GitHub OIDC federation
 - **Backend State**: [backend.conf](Terraform/backend.conf) - Azure remote state management
 - **Variables & Outputs**: [variables.tf](Terraform/variables.tf), [outputs.tf](Terraform/outputs.tf)
 
@@ -199,7 +199,7 @@ Automated pipelines in [.github/workflows/](.github/workflows/) with integrated 
 
 Secure CI/CD authentication via:
 
-- [auth.tf](Terraform/auth.tf) - GitHub OIDC provider and Azure AD app
+- [auth/auth.tf](auth/auth.tf) - GitHub OIDC provider and Azure AD app in dedicated auth state
 - No stored secrets in GitHub; uses ambient identity
 
 ## Stage 7: Observability & GitOps
