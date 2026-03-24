@@ -48,7 +48,6 @@ gulp.task('default', function() {
   var js = gulp.src(['src/tetris.js', "src/audio.js", "src/play.js", "src/onload.js"])
     .pipe(replace(/\.\/src/g, "./public" ))
     .pipe(concat('all.js'))
-    .pipe(uglify())
     .pipe(gulp.dest(DEST));
 
   var sw = gulp.src('src/sw.js')

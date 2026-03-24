@@ -45,8 +45,7 @@ create_resources() {
     #   --account-name "$STORAGE_ACCOUNT_NAME" \
     #   --query "[0].value" -o tsv)
     # echo "ARM_ACCESS_KEY=$access_key" >> .env
-<<<<<<< HEAD
-=======
+
 
     echo -e "${BLUE}Assigning Storage Blob Data Contributor role...${NC}"
 
@@ -61,7 +60,6 @@ create_resources() {
     --role "Storage Blob Data Contributor" \
     --assignee "$USER_ID" \
     --scope "$STORAGE_ACCOUNT_ID"
->>>>>>> d72a5be (Added new files)
 }
 
 destroy_resources() {
@@ -72,6 +70,8 @@ destroy_resources() {
     --yes \
     --no-wait
 }
+
+
 
 main() {
     if [[ $# -eq 0 ]]; then

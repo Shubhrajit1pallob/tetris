@@ -1,0 +1,11 @@
+project_name          = "tetris"
+region                = "westcentralus"
+
+aks_cluster_name      = "tetris-aks"
+aks_dns_prefix        = "tetris-aks"
+aks_node_count        = 3
+aks_node_vm_size      = "Standard_D4s_v5"
+
+cosmos_account_name   = "<globally-unique-cosmos-account-name>" // Given in default
+cosmos_database_name  = "tetrisdb"
+cosmos_container_name = "scores"

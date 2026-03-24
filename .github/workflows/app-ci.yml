@@ -34,9 +34,16 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'tetris-app:${{ github.sha }}'
-          format: 'table'
           exit-code: '1' # Fail the build if vulnerabilities found
           severity: 'CRITICAL,HIGH'
+          format: 'sarif'
+          output: 'tetris-app-trivy-results.sarif'
+      
+      - name: Upload Trivy SARIF Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: tetris-app-trivy-results
+          path: tetris-app-trivy-results.sarif
 
       - name: Azure login
         uses: azure/login@v2

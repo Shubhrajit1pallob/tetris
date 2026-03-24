@@ -14,23 +14,32 @@ output "acr_id" {
 }
 
 
-output "app-password" {
-  value     = azuread_application_password.tetris.value
-  sensitive = true
+# Auth outputs removed - managed outside of Terraform stack
+# output "app-password" { ... }
+# output "client-id" { ... }
+# output "service_principal_id" { ... }
+
+output "aks_cluster_name" {
+  description = "AKS cluster name"
+  value       = azurerm_kubernetes_cluster.tetris.name
 }
 
-output "client-id" {
-  value = azuread_application.tetris_ad.client_id
+output "aks_resource_group" {
+  description = "Resource group hosting AKS"
+  value       = azurerm_resource_group.tetris-project.name
 }
 
-output "tenant-id" {
-  value = data.azuread_client_config.current.tenant_id
+output "cosmos_endpoint" {
+  description = "Cosmos DB endpoint for score API"
+  value       = azurerm_cosmosdb_account.tetris.endpoint
 }
 
-output "subscription-id" {
-  value = data.azurerm_client_config.current.subscription_id
+output "cosmos_database_name" {
+  description = "Cosmos SQL database name"
+  value       = azurerm_cosmosdb_sql_database.tetris.name
 }
 
-output "service_principal_id" {
-  value = azuread_service_principal.tetris.object_id
+output "cosmos_container_name" {
+  description = "Cosmos SQL container name"
+  value       = azurerm_cosmosdb_sql_container.scores.name
 }
