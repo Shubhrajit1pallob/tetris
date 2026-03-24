@@ -47,7 +47,7 @@ plan
 *.tfstate.*
 .terraform.lock.hcl
 backend.conf
-auth/backend.conf
+./auth/backend.conf
 
 # Python backend
 __pycache__/
