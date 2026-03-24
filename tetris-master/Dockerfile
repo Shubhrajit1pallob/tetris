@@ -21,4 +21,4 @@ COPY --from=build /app/sw.js ./sw.js
 COPY --from=build /app/public ./public
 
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
