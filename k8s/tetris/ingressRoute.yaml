@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tetris-ingress
+  namespace: tetris-app
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`tetris.shubhrajitpallob.dev`)
+      kind: Rule
+      services:
+        - name: services
+          port: 80
+  tls:
+    secretName: shubhrajit-pallob-tls

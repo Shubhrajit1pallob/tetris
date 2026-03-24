@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tetris-cert
+  namespace: tetris-app # Must be the same namespace as your IngressRoute
+spec:
+  secretName: shubhrajit-pallob-tls # Cert-manager will CREATE this secret
+  issuerRef:
+    name: aks-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - tetris.shubhrajitpallob.dev

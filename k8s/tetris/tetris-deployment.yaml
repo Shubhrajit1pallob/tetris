@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tetris-frontend
+  namespace: tetris-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tetris
+  template:
+    metadata:
+      labels:
+        app: tetris
+    spec:
+      containers:
+        - name: tetris-game
+          image: tetrisacr.azurecr.io/tetris-app:ba0e7c6a704112762a1987bf96a4f05fe575af65
+          ports:
+            - containerPort: 80

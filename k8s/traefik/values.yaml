@@ -1,12 +1,14 @@
 service:
+  enabled: true
   type: LoadBalancer
-  loadBalancerIP: "192.168.12.201"
+
 ports:
   web:
     port: 8000
-    exposedPort: 80
     expose:
       default: true
+      port: 80
+    protocol: TCP
     http:
       redirections:
         entryPoint:
@@ -16,25 +18,15 @@ ports:
 
   websecure:
     port: 8443
-    exposedPort: 443
     expose:
       default: true
-    #http:
-    #middlewares:
-    #- auth@kubernetescrd
+      port: 443
+    protocol: TCP
 
 ingressRoute:
   dashboard:
     enabled: true
     matchRule: Host(`traefik.shubhrajitpallob.dev`)
     entryPoints:
-      - web
-
-providers:
-  kubernetesGateway:
-    enabled: true
-gateway:
-  listeners:
-    web:
-      namespacePolicy:
-        from: All
+      - web # Change to websecure later for security!
+      - websecure

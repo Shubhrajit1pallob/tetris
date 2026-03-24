@@ -1,15 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: shubhrajit-dot-dev-cert
-  namespace: default # Or whichever namespace your nginx/test pods are in
+  name: score-api-cert
+  namespace: tetris
 spec:
-  secretName: shubhrajit-pallob-tls # This is the name of the Secret cert-manager will CREATE
+  secretName: score-api-tls
   issuerRef:
-    name: cloudflare-clusterissuer # Name of the ClusterIssuer
+    name: aks-clusterissuer
     kind: ClusterIssuer
-  commonName: shubhrajitpallob.dev
+  commonName: api.<your-domain>
   dnsNames:
-    - shubhrajitpallob.dev
-    - "*.shubhrajitpallob.dev" # This gets you a wildcard cert too!
+    - api.<your-domain>
 

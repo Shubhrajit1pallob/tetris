@@ -4,8 +4,13 @@ metadata:
   name: score-api
   namespace: tetris
   annotations:
-    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: aks-clusterissuer
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - api.<your-domain>
+      secretName: score-api-tls
   rules:
     - host: api.<your-domain>
       http:
