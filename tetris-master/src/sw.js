@@ -2,6 +2,8 @@
 // this polyfill adds them.
 importScripts('./public/serviceworker-cache-polyfill.js');
 
+var CACHE_NAME = 'simple-sw-v2';
+
 // Here comes the install event!
 // This only happens once, when the browser sees this
 // version of the ServiceWorker for the first time.
@@ -14,7 +16,7 @@ self.addEventListener('install', function(event) {
   // long install takes, and if it failed
   event.waitUntil(
     // We open a cache…
-    caches.open('simple-sw-v1').then(function(cache) {
+    caches.open(CACHE_NAME).then(function(cache) {
 
       cache.addAll([
         './public/ambience.ogg',
@@ -38,6 +40,22 @@ self.addEventListener('install', function(event) {
   );
 });
 
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames
+          .filter(function(name) {
+            return name.indexOf('simple-sw-') === 0 && name !== CACHE_NAME;
+          })
+          .map(function(name) {
+            return caches.delete(name);
+          })
+      );
+    })
+  );
+});
+
 // The fetch event happens for the page request with the
 // ServiceWorker's scope, and any request made within that
 // page
@@ -51,7 +69,7 @@ self.addEventListener('fetch', function(event) {
       return response
     // Then replace the cached response
     // with the newly recieved
-    caches.open('simple-sw-v1').then(function(cache) {
+    caches.open(CACHE_NAME).then(function(cache) {
       cache.put( event.request.url, response )
     })
     // And keep the response copy for
@@ -65,12 +83,10 @@ self.addEventListener('fetch', function(event) {
   // of providing the response. We pass in a promise
   // that resolves with a response object
   event.respondWith(
-    // First we look for something in the caches that
-    // matches the request
-    caches.match(event.request).then(function(cached) {
-      // Then return the cached response or
-      // if empty, the fresh response
-      return cached || response
+    caches.open(CACHE_NAME).then(function(cache) {
+      return cache.match(event.request).then(function(cached) {
+        return cached || response;
+      });
     })
   );
 });

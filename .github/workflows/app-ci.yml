@@ -1,0 +1,55 @@
+name: App CI & Security Scan
+
+on:
+  push:
+    branches:
+        - app
+    paths:
+      - 'tetris-master/**' # Only run if the app code changes
+      - '.github/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SCA Scan (npm audit)
+        run: |
+          cd tetris-master
+          npm audit --audit-level=high
+
+  build-and-container-scan:
+    needs: security-scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Image
+        run: docker build -t tetris-app:${{ github.sha }} ./tetris-master
+      
+      - name: Scan Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'tetris-app:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1' # Fail the build if vulnerabilities found
+          severity: 'CRITICAL,HIGH'
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR login
+        run: az acr login --name ${{ secrets.ACR_NAME }}
+
+      - name: Tag image for ACR
+        run: docker tag tetris-app:${{ github.sha }} ${{ secrets.ACR_NAME }}.azurecr.io/tetris-app:${{ github.sha }}
+
+      - name: Push image to ACR
+        run: docker push ${{ secrets.ACR_NAME }}.azurecr.io/tetris-app:${{ github.sha }}
