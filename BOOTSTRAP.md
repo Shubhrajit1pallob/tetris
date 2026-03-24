@@ -163,7 +163,19 @@ Set these secrets in your GitHub repository (Settings → Secrets and variables 
 | `TFSTATE_CONTAINER` | `tfstate` |
 | `ACR_NAME` | Will be created by Terraform (leave for now) |
 
-### Step 6: Deploy Infrastructure
+### Step 6: Apply Authentication Stack (Separate State)
+
+Apply auth resources from the dedicated stack first:
+
+```bash
+terraform -chdir=auth init -backend-config=backend.conf
+terraform -chdir=auth plan
+terraform -chdir=auth apply
+```
+
+This writes to `auth.tfstate`, separate from infra state.
+
+### Step 7: Deploy Infrastructure
 
 Now you can deploy the main infrastructure:
 
@@ -185,7 +197,7 @@ terraform -chdir=Terraform plan \
 terraform -chdir=Terraform apply tfplan
 ```
 
-### Step 7: Push & Verify CI/CD
+### Step 8: Push & Verify CI/CD
 
 ```bash
 # Commit changes
