@@ -59,6 +59,12 @@ variable "enable_aks_acr_pull_role_assignment" {
   default     = false
 }
 
+variable "enable_monitoring_node_pool" {
+  description = "Whether Terraform should create an additional AKS monitoring user node pool"
+  type        = bool
+  default     = false
+}
+
 variable "cosmos_account_name" {
   description = "Globally unique Azure Cosmos DB account name"
   type        = string

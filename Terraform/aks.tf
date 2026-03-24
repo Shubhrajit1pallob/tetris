@@ -66,6 +66,7 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "monitoring" {
+  count                 = var.enable_monitoring_node_pool ? 1 : 0
   name                  = "monitoring"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.tetris.id
   vm_size               = var.aks_node_vm_size
