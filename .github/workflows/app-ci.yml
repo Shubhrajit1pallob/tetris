@@ -40,7 +40,7 @@ jobs:
           output: 'tetris-app-trivy-results.sarif'
       
       - name: Upload Trivy SARIF Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tetris-app-trivy-results
           path: tetris-app-trivy-results.sarif
