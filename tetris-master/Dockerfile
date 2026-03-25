@@ -19,6 +19,8 @@ COPY --from=build /app/index.html ./index.html
 COPY --from=build /app/manifest.json ./manifest.json
 COPY --from=build /app/sw.js ./sw.js
 COPY --from=build /app/public ./public
+COPY --from=build /app/src ./src
 
 EXPOSE 8080
+# Start Nginx server
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
